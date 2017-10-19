@@ -112,7 +112,8 @@ func (s *dnsChallenge) Solve(chlng challenge, domain string) error {
 		return PreCheckDNS(fqdn, value)
 	})
 	if err != nil {
-		return err
+		logf("[INFO][%s] Ignoring propagation precheck failure: %v", domain, err)
+		//return err
 	}
 
 	return s.validate(s.jws, domain, chlng.URI, challenge{Resource: "challenge", Type: chlng.Type, Token: chlng.Token, KeyAuthorization: keyAuth})
